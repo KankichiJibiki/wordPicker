@@ -1,0 +1,22 @@
+table td th{
+    border: 1px solid black;
+    padding: 1rem;
+}
+
+tbody tr{
+    border: 1px solid black;
+}
+
+td{
+    width: auto;
+    padding: .6rem;
+}
+
+.edit-input{
+    width: 100%;
+    padding: .6rem;
+    margin-top: auto;
+    margin-bottom: auto;
+    border: .7px solid #ebf5a2;
+    background-color: #f8faed;
+}

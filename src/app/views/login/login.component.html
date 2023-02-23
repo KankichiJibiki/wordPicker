@@ -1,0 +1,72 @@
+<main class="full-width">
+    <div class="full-height mt-2">
+        <h2 class="text-center">
+            <ng-container *ngIf="isLoginPage">Login</ng-container>
+            <ng-container *ngIf="!isLoginPage">Sign up</ng-container>
+        </h2>
+        <div class="flex-container">
+            <form class="form-content" [formGroup]="authForm">
+                <mat-form-field class="full-width">
+                    <mat-label>Username</mat-label>
+                    <input type="text" 
+                    matInput 
+                    placeholder="Username" 
+                    name="username" 
+                    [(ngModel)]="userList.username"
+                    formControlName="username"
+                    >
+                    <!-- error -->
+                    <mat-error *ngIf="authForm.get('username').hasError('required')" class="alert">Username is required</mat-error>
+                    <mat-error *ngIf="authForm.get('username').hasError('maxlength')" class="alert">Username must be less than 50 characters</mat-error>
+                </mat-form-field>
+                
+                <ng-container *ngIf="!isLoginPage">
+                    <mat-form-field class="full-width">
+                        <mat-label>E-mail</mat-label>
+                        <input type="email" name="email" matInput placeholder="E-mail"
+                        [(ngModel)]="userList.email"
+                        formControlName="email"
+                        >
+                    </mat-form-field>
+
+                    <!-- error -->
+                    <mat-error *ngIf="!isLoginPage && authForm.get('email').hasError('required') && authForm.get('email').touched">Email is required</mat-error>
+                    <mat-error *ngIf="authForm.get('email').hasError('email') && authForm.get('email').touched">Email is invalid</mat-error>
+                </ng-container>
+        
+                <mat-form-field class="full-width">
+                    <mat-label>Password</mat-label>
+                    <input type="password" matInput placeholder="Password" name="password" [(ngModel)]="userList.password"
+                    formControlName="password"
+                    >
+                    <!-- error -->
+                    <mat-error *ngIf="authForm.get('password').hasError('required')" class="alert">Password is required</mat-error>
+                    <mat-error *ngIf="authForm.get('password').hasError('minlength')" class="alert">Password must be more than 8 characters</mat-error>
+                </mat-form-field>
+
+                <ng-container *ngIf="isLoginPage">
+                    <button mat-raised-button (click)="login()" class="full-width mb-1" color="primary" [disabled]="!authForm.valid">Login</button>
+                    <section class="flex-container">
+                        <p>If you don't have an account →
+                            <a mat-button (click)="togglePage()">SignUp</a>
+                        </p>
+                    </section>
+                </ng-container>
+                <ng-container *ngIf="!isLoginPage">
+                    <button mat-raised-button class="full-width mb-1" color="warn" (click)="register()" [disabled]="!authForm.valid">Sign up</button>
+                    <section class="flex-container">
+                        <p>If you have an account →
+
+                            <a mat-button (click)="togglePage()">Login</a>
+                        </p>
+                    </section>
+                </ng-container>
+            </form>
+        </div>
+        <ng-container *ngIf="spinnerService.isLoading">
+            <div class="spinner-container">
+                <mat-spinner></mat-spinner>
+            </div>
+        </ng-container>
+    </div>
+</main>
