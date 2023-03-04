@@ -1,10 +1,20 @@
 <div class="yesOrNoContent p-1">
-    <div class="text-center my-3 f-1 warning">{{ data }}</div>
+    <div class="text-center my-3 f-1 warning">{{ data[0] }}</div>
 
-    <div class="w-70 ele-center d-flex jt-between mt-5">
-        <button mat-raised-button color="warn" (click)="yesClick()" class="w-30">Yes</button>
-        <!-- If dialog type is confirm -->
-        <button mat-raised-button (click)="noClick()" class="w-30">No</button>
-    </div>
+    <!-- yes/no dialog -->
+    <ng-container *ngIf="data[1]">
+        <div class="w-70 ele-center d-flex jt-between mt-5">
+            <button mat-raised-button color="warn" (click)="yesClick()" class="w-30">Yes</button>
+            <!-- If dialog type is confirm -->
+            <button mat-raised-button (click)="noClick()" class="w-30">No</button>
+        </div>
+    </ng-container>
+
+    <!-- OK dialog -->
+    <ng-container *ngIf="!data[1]">
+        <div class="w-100 ele-center mt-5">
+            <button mat-raised-button (click)="yesClick()" class="w-30">OK</button>
+        </div>
+    </ng-container>
 </div>
 

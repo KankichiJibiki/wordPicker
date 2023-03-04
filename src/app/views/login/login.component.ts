@@ -29,38 +29,42 @@ export class LoginComponent {
   }
 
   public login(){
-    this.spinnerService.start();
     this.aService.loginUser(this.userList)
-    .subscribe(
-      (res: LoginData) => {
+    .subscribe({
+      next: (res: LoginData) => {
+        this.spinnerService.start();
         localStorage.clear();
-        alert("Login success");
         localStorage.setItem('authToken', res.token);
         localStorage.setItem('userId', res.id.toString());
         this.router.navigate(['/index']);
-        this.spinnerService.stop();
       },
-      (err: any) => {
-        console.log(err);
+      error: (err: any) => {
+
+      },
+      complete: () => {
+        console.log("complete");
         this.spinnerService.stop();
       }
-    )
+    })
   }
 
   public register(){
     this.spinnerService.start();
 
-    this.aService.registerUser(this.userList).subscribe(
-      (res : UserList) => {
+    this.aService.registerUser(this.userList).subscribe({
+      next: (res : UserList) => {
         alert('registered');
         this.togglePage();
         this.spinnerService.stop();
       },
-      (err : any) => {
+      error: (err : any) => {
         alert(err.message);
         this.spinnerService.stop();
+      },
+      complete: () => {
+        this.spinnerService.stop();
       }
-    )
+    })
   }
 
   public togglePage(){

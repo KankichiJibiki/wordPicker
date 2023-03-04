@@ -26,11 +26,11 @@ export class DialogService {
     });
   }
 
-  public openYesOrNoDialog(msg: string)
+  public openYesOrNoDialog(msg: string, type: boolean)
     : MatDialogRef<YesOrNoDialogComponent, DialogResult>
   {
     return this.dialog.open(YesOrNoDialogComponent, {
-      data: msg
+      data: [msg, type],
     });
   }
 }

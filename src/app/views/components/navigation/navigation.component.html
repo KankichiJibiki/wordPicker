@@ -1,0 +1,19 @@
+<p id="navigation">
+  <!-- Tool bar -->
+  <mat-toolbar color="primary">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <!-- menu content -->
+    <mat-menu #menu="matMenu">
+      <ul class="menu-container">
+        <li>
+          <a routerLink (click)="logout()" class="text-center">Logout</a>
+        </li>
+      </ul>
+    </mat-menu>
+
+    <span>Word Picker</span>
+    <span class="example-spacer"></span>
+  </mat-toolbar>
+</p>

@@ -32,7 +32,6 @@ export class IndexComponent {
   ){}
 
   ngOnInit(): void{
-    this.spinnerService.start();
     this.getWordsList();
     this.getWordTypes();
     let userId = localStorage.getItem('userId');
@@ -40,14 +39,17 @@ export class IndexComponent {
   }
   
   getWordsList(){
-     this.wService.getWordsList().subscribe(
-        (res: WordSet[]) => {
-          this.words = res;
-          this.pageSlice = this.words.slice(0, 5);
-          this.spinnerService.stop();
-        },
-      );
-    }
+    this.wService.getWordsList().subscribe({
+      next: (res: WordSet[]) => {
+        this.spinnerService.start();
+        this.words = res;
+        this.pageSlice = this.words.slice(0, 5);
+      },
+      complete: () => {
+        this.spinnerService.stop();
+      }
+    })
+  }
 
   getWordTypes(){
     this.wService.getTypes().subscribe(
@@ -60,13 +62,16 @@ export class IndexComponent {
 
   
   createWords(){
-    this.wService.createWord(this.inputWordSet).subscribe(
-      (res: WordSet) => {
-        alert('success');
+    this.wService.createWord(this.inputWordSet).subscribe({
+      next: (res: WordSet) => {
         this.getWordsList();
         this._clearInput();
       },
-      )
+      complete: () => {
+        let msg = "Your word was successfully registered";
+        this.dialogService.openYesOrNoDialog(msg, false);
+      }
+    });
   }
 
   editWord(i: number, edittedWord: WordSet){
@@ -95,18 +100,22 @@ export class IndexComponent {
   }
 
   delete(word: WordSet){
-    this.wService.deleteWordSet(word).subscribe(
-      (res: WordSet[]) => {
-        console.log("delete success")
+    this.wService.deleteWordSet(word).subscribe({
+      next: (res: WordSet[]) => {
+        console.log("delete success");
         this.words = res;
+        this.pageSlice = this.words.slice(0, 5);
       },
-    )
+      complete: () => {
+        this.spinnerService.stop();
+      }
+    })
   }
 
   async deleteWord(word: WordSet): Promise<void>{
     console.log(word);
     let msg = 'Are you sure to delete this word?';
-    const dialogRef =  this.dialogService.openYesOrNoDialog(msg);
+    const dialogRef =  this.dialogService.openYesOrNoDialog(msg, true);
 
     let res: DialogResult | undefined = await lastValueFrom(dialogRef.afterClosed());
 
@@ -116,8 +125,6 @@ export class IndexComponent {
     this.spinnerService.start();
 
     let resDelete = this.delete(word);
-
-    this.spinnerService.stop();
   }
 
   slot(){

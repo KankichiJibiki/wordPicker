@@ -18,12 +18,17 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NavigationComponent } from './views/components/navigation/navigation.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
     AppComponent,
     IndexComponent,
     LoginComponent,
+    NavigationComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,6 +47,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatDialogModule,
     DialogModule,
     MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatMenuModule,
   ],
   providers: [
     {
