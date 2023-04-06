@@ -1,3 +1,7 @@
+import { lastValueFrom } from 'rxjs';
+import { DialogResult } from './../components/dialog/yes-or-no-dialog/yes-or-no-dialog.component';
+import { DialogService } from './../../service/dialog/dialog.service';
+import { OverlayService } from './../../service/overlay/overlay.service';
 import { SpinnerService } from './../../service/spinner/spinner.service';
 import { RegisterValidations } from './../../validations/login/register-validation';
 import { LoginValidations } from 'src/app/validations/login/login-validation';
@@ -19,23 +23,29 @@ export class LoginComponent {
   authForm: any;
 
   constructor(
-    private aService: AuthService,
+    public aService: AuthService,
     private router: Router,
     private loginV:  LoginValidations,
     private regiV: RegisterValidations ,
     public spinnerService: SpinnerService,
+    private overlayService: OverlayService,
+    private dialogService: DialogService,
   ){
     this.authForm = this.isLoginPage ? this.loginV.loginForm : this.regiV.regiForm;
   }
 
   public login(){
+    this.overlayService.createOverlay();
+    this.spinnerService.start();
+
     this.aService.loginUser(this.userList)
     .subscribe({
-      next: (res: LoginData) => {
+      next: (res: Response | any) => {
         this.spinnerService.start();
         localStorage.clear();
-        localStorage.setItem('authToken', res.token);
-        localStorage.setItem('userId', res.id.toString());
+        localStorage.setItem('authToken', res.data.token);
+        localStorage.setItem('userId', res.data.id.toString());
+        this.aService.isAuthorized = true;
         this.router.navigate(['/index']);
       },
       error: (err: any) => {
@@ -44,25 +54,29 @@ export class LoginComponent {
       complete: () => {
         console.log("complete");
         this.spinnerService.stop();
+        this.overlayService.disposeOverlay();
       }
     })
   }
 
   public register(){
+    this.overlayService.createOverlay();
     this.spinnerService.start();
 
     this.aService.registerUser(this.userList).subscribe({
-      next: (res : UserList) => {
-        alert('registered');
+      next: async (res : Response | any) => {
+        const dialogRef = this.dialogService.openYesOrNoDialog(res.message, false);
+        let result : DialogResult | undefined = await lastValueFrom(dialogRef.afterClosed());
         this.togglePage();
         this.spinnerService.stop();
+        this.router.navigate(['/']);
       },
       error: (err : any) => {
-        alert(err.message);
-        this.spinnerService.stop();
+
       },
       complete: () => {
         this.spinnerService.stop();
+        this.overlayService.disposeOverlay();
       }
     })
   }
@@ -70,5 +84,6 @@ export class LoginComponent {
   public togglePage(){
     this.isLoginPage = !this.isLoginPage;
     this.authForm = this.isLoginPage ? this.loginV.loginForm : this.regiV.regiForm;
+    this.userList = new UserList();
   }
 }

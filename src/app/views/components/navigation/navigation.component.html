@@ -1,7 +1,7 @@
 <p id="navigation">
   <!-- Tool bar -->
   <mat-toolbar color="primary">
-    <button mat-icon-button [matMenuTriggerFor]="menu">
+    <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="authService.isAuthorized">
       <mat-icon>menu</mat-icon>
     </button>
     <!-- menu content -->

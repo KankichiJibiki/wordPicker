@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 })
 export class NavigationComponent {
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
   ){}
 
   public logout(){

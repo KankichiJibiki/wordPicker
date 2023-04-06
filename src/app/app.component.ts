@@ -1,5 +1,5 @@
+import { SpinnerService } from './service/spinner/spinner.service';
 import { Component } from '@angular/core';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +7,9 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(){
-    console.log(environment.production);
-  }
+  constructor(
+    public spinnerService: SpinnerService
+  ){}
 
   title = 'Word_picker_app';
 }

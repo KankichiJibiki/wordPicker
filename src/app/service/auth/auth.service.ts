@@ -11,22 +11,24 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
+  isAuthorized: boolean = false;
 
   constructor(
     private http : HttpClient,
     private router: Router
   ) { }
 
-  public registerUser(userList: UserList): Observable<UserList>{
-    return this.http.post<UserList>(`${environment.apiUrl}/${apiConst.AUTH_URL}/${apiConst.AUTH_ACTION_URL_REGISTER}`, userList);
+  public registerUser(userList: UserList): Observable<Response>{
+    return this.http.post<Response>(`${environment.apiUrl}/${apiConst.AUTH_URL}/${apiConst.AUTH_ACTION_URL_REGISTER}`, userList);
   }
 
-  public loginUser(userList: UserList): Observable<LoginData>{
-    return this.http.post<LoginData>(`${environment.apiUrl}/${apiConst.AUTH_URL}/${apiConst.AUTH_ACTION_URL_LOGIN}`, userList);
+  public loginUser(userList: UserList): Observable<Response>{
+    return this.http.post<Response>(`${environment.apiUrl}/${apiConst.AUTH_URL}/${apiConst.AUTH_ACTION_URL_LOGIN}`, userList);
   }
 
   public logout(){
     localStorage.clear();
+    this.isAuthorized = false;
     this.router.navigate(['/']);
   }
 }

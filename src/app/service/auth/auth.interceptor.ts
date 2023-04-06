@@ -1,3 +1,6 @@
+import { AuthService } from './auth.service';
+import { OverlayService } from './../overlay/overlay.service';
+import { SpinnerService } from './../spinner/spinner.service';
 import { Router } from '@angular/router';
 import { DialogResult } from './../../views/components/dialog/yes-or-no-dialog/yes-or-no-dialog.component';
 import { AppConfig } from './../../constants/appConfig';
@@ -10,8 +13,11 @@ import { catchError, lastValueFrom, Observable, throwError } from "rxjs";
 export class AuthInterceptor implements HttpInterceptor
 {
     constructor(
+        private spinnerService: SpinnerService,
         private dialogService: DialogService,
         private router: Router,
+        private overlayService: OverlayService,
+        private authService: AuthService,
     ){}
     intercept(
             req: HttpRequest<unknown>, 
@@ -35,12 +41,14 @@ export class AuthInterceptor implements HttpInterceptor
                             break;
                         case AppConfig.BAD_REQUEST:
                             console.log(err);
-                            this.dialogService.openErrDialog(err.error);
+                            this.dialogService.openErrDialog(err.error.message);
                             break;
                         default: 
                             break;
                     }
                 }
+                this.spinnerService.stop();
+                this.overlayService.disposeOverlay();
                 return throwError("Error occured");
             })
         );
@@ -49,6 +57,7 @@ export class AuthInterceptor implements HttpInterceptor
     private async handle401Error(request: HttpRequest<any>, next: HttpHandler){
         const dialogRef = this.dialogService.openErrDialog('Please Login again');
         let res : DialogResult | undefined = await lastValueFrom(dialogRef.afterClosed());
+        this.authService.isAuthorized = false;
         console.log(res);
         if(res) this.router.navigate(['/']);
     }

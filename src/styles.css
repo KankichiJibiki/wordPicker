@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/cdk/overlay-prebuilt.css";
+
 :host{
     --danger: red;
     --blackBoard: #1b4225;
@@ -6,7 +8,7 @@
     --warning: yellow;
 }
 
-html, body { height: 100%; }
+/* html, body { height: 100%; } */
 body { 
     margin: 0; 
     font-family: Roboto, "Helvetica Neue", sans-serif; 
@@ -259,8 +261,13 @@ body {
     color: var(--warning);
 }
 
-.spinner-container{
-    position: fixed;
-    left: 50%;
-    top: 50%;
+.app-loading-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-loading-indicator-backdrop {
+background-color: rgba(0, 0, 0, .28);
 }
