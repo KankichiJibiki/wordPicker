@@ -13,6 +13,6 @@ phases:
     commands:
       - ng build -c production
 artifacts: 
-  base-directory: dist/word_picker 
+  base-directory: dist/word-picker-app
   files: 
     - '**/*' 
