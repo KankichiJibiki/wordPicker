@@ -42,13 +42,16 @@ export class IndexComponent {
   }
   
   getWordsList(){
-    this.spinnerService.start();
-    this.overlayService.createOverlay();
+    if(!this.spinnerService.isLoading){
+      this.spinnerService.start();
+      this.overlayService.createOverlay();
+    }
 
     this.wService.getWordsList().subscribe({
-      next: (res: WordSet[]) => {
+      next: (res: Response | any) => {
+        console.log(res);
         this.spinnerService.start();
-        this.words = res;
+        this.words = res.data;
         this.pageSlice = this.words.slice(0, 5);
       },
       complete: () => {
@@ -60,9 +63,9 @@ export class IndexComponent {
 
   getWordTypes(){
     this.wService.getTypes().subscribe({
-      next: (res: WordType[]) => {
+      next: (res: Response | any) => {
         console.log(res);
-        this.wordTypes = res;
+        this.wordTypes = res.data;
         this.isTypeReady = true;
       },
     })
@@ -70,12 +73,18 @@ export class IndexComponent {
 
   
   createWords(){
+    this.spinnerService.start();
+    this.overlayService.createOverlay();
+
     this.wService.createWord(this.inputWordSet).subscribe({
-      next: (res: WordSet) => {
+      next: (res: Response | any) => {
+        console.log(res.message);
         this.getWordsList();
         this._clearInput();
       },
       complete: () => {
+        this.spinnerService.stop();
+        this.overlayService.disposeOverlay();
         let msg = "Your word was successfully registered";
         this.dialogService.openYesOrNoDialog(msg, false);
       }
@@ -96,7 +105,8 @@ export class IndexComponent {
   updateWord(){
     console.log(this.editWordSet);
     this.wService.updateWord(this.editWordSet).subscribe(
-      (res : WordSet) => {
+      (res : Response | any) => {
+        console.log(res.message);
         this.getWordsList();
         this.isEditMode = false;
       },
@@ -109,9 +119,9 @@ export class IndexComponent {
 
   delete(word: WordSet){
     this.wService.deleteWordSet(word).subscribe({
-      next: (res: WordSet[]) => {
-        console.log("delete success");
-        this.words = res;
+      next: (res: Response | any) => {
+        console.log(res.message);
+        this.getWordsList();
         this.pageSlice = this.words.slice(0, 5);
       },
       complete: () => {
@@ -143,9 +153,9 @@ export class IndexComponent {
     };
 
     this.wService.slotWord(+userId).subscribe(
-      (res: WordSet[]) => {
+      (res: Response | any) => {
         console.log(res);
-        this.dialogService.openSlotDialog(res);
+        this.dialogService.openSlotDialog(res.data);
       },
     )
   }

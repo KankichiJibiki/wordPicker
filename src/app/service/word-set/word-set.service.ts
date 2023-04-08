@@ -13,40 +13,40 @@ export class WordSetService {
 
   constructor(private http: HttpClient) { }
 
-  public getWordsList(): Observable<WordSet[]> {
+  public getWordsList(): Observable<Response> {
     let apiUrl = `${environment.apiUrl}/${apiConst.WORD_URL}/${apiConst.WORD_ACTION_URL_GETALL}`;
 
-    return this.http.get<WordSet[]>(apiUrl);
+    return this.http.get<Response>(apiUrl);
   }
 
-  public createWord(newWord: WordSet): Observable<WordSet> {
+  public createWord(newWord: WordSet): Observable<Response> {
     let apiUrl = `${environment.apiUrl}/${apiConst.WORD_URL}/${apiConst.WORD_ACTION_URL_CREATE}`;
 
-    return this.http.post<WordSet>
+    return this.http.post<Response>
     (apiUrl, newWord);
   }
 
-  public updateWord(update: WordSet): Observable<WordSet> {
+  public updateWord(update: WordSet): Observable<Response> {
     let apiUrl = `${environment.apiUrl}/${apiConst.WORD_URL}/${apiConst.WORD_ACTION_URL_UPDATE}`;
 
-    return this.http.put<WordSet>(apiUrl, update);
+    return this.http.put<Response>(apiUrl, update);
   }
 
-  public deleteWordSet(wordSet: WordSet): Observable<WordSet[]> {
+  public deleteWordSet(wordSet: WordSet): Observable<Response> {
     let apiUrl = `${environment.apiUrl}/${apiConst.WORD_URL}/${apiConst.WORD_ACTION_URL_DELETE}/${wordSet.id}`;
 
-    return this.http.delete<WordSet[]>(apiUrl);
+    return this.http.delete<Response>(apiUrl);
   }
 
-  public getTypes(): Observable<WordType[]>{
+  public getTypes(): Observable<Response>{
     let apiUrl = `${environment.apiUrl}/${apiConst.TYPE_URL}/${apiConst.TYPE_ACTION_URL_GET}`;
 
-    return this.http.get<WordType[]>(apiUrl);
+    return this.http.get<Response>(apiUrl);
   }
 
-  public slotWord(userId: number): Observable<WordSet[]>{
+  public slotWord(userId: number): Observable<Response>{
     let apiUrl = `${environment.apiUrl}/${apiConst.WORD_URL}/${apiConst.WORD_ACTION_URL_SLOT}/${userId}`;
 
-    return this.http.get<WordSet[]>(apiUrl)
+    return this.http.get<Response>(apiUrl)
   }
 }

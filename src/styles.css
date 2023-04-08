@@ -71,6 +71,10 @@ body {
     margin: 0;
 }
 
+.m-1{
+    margin: .8rem;
+}
+
 .mt-1{
     margin-top: .8rem;
 }
@@ -249,6 +253,11 @@ body {
 .overflow-content{
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+.overflow-content-both{
+    overflow-y: scroll;
+    overflow-x: scroll;
 }
 
 .modal-container{
