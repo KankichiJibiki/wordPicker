@@ -1,13 +1,7 @@
-<main class="full-width">
-    <ng-container *ngIf="spinnerService.isLoading">
-        <div class="spinner-container">
-            <mat-spinner></mat-spinner>
-        </div>
-    </ng-container>
-
-    <ng-container *ngIf="!spinnerService.isLoading">
+<main class="full-width ele-center">
+    <ng-container>
         <!-- register -->
-        <div class="flex-container mt-2">
+        <div class="flex-container w-80 m-0 p-2 ele-center">
             <form class="form-content">
                 <mat-form-field class="full-width">
                     <mat-label>Word</mat-label>
@@ -22,14 +16,18 @@
                 <mat-form-field class="full-width">
                     <mat-label>Type</mat-label>
                     <mat-select name="typeId" [(ngModel)]="inputWordSet.typeId">
-                        <mat-option *ngFor="let type of wordTypes" [value]="type.id">
+                        <mat-option *ngFor="let type of wordTypes" [value]="type.id" [disabled]="!isTypeReady">
                             {{ type.wordType }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
                 
                 <div class="d-flex jt-between">
-                    <button mat-raised-button color="primary" class="w-40" (click)="createWords()">Create</button>
+                    <button mat-raised-button color="primary" class="w-40" (click)="createWords()"
+                    [disabled]="!isTypeReady"
+                    >
+                        Create
+                    </button>
     
                     <button mat-raised-button color="basic" (click)="slot()" class="w-40">Slot</button>
                 </div>
@@ -37,8 +35,8 @@
         </div>
     
         <!-- mat table -->
-        <div class="mat-elevation-z8 w-90 ele-center my-6">
-            <table mat-table [dataSource]="pageSlice" class="p-3">
+        <div class="full-width mat-elevation-z8 w-90 ele-center p-2">
+            <table mat-table [dataSource]="pageSlice" class="">
                     <!-- id -->
                     <ng-container matColumnDef="id">
                         <th mat-header-cell *matHeaderCellDef>No.</th>

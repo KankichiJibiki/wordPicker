@@ -1,3 +1,4 @@
+import { OverlayService } from './../../service/overlay/overlay.service';
 import { SpinnerService } from './../../service/spinner/spinner.service';
 import { DialogService } from './../../service/dialog/dialog.service';
 import { WordSetService } from './../../service/word-set/word-set.service';
@@ -19,6 +20,7 @@ export class IndexComponent {
   inputWordSet = new WordSet();
   wordTypes: WordType[] = [];
   isEditMode: boolean = false;
+  isTypeReady: boolean = false;
   editId?: number;
 
 // table
@@ -28,7 +30,8 @@ export class IndexComponent {
   constructor(
     private wService: WordSetService,
     private dialogService: DialogService,
-    public spinnerService: SpinnerService
+    public spinnerService: SpinnerService,
+    private overlayService: OverlayService,
   ){}
 
   ngOnInit(): void{
@@ -39,6 +42,9 @@ export class IndexComponent {
   }
   
   getWordsList(){
+    this.spinnerService.start();
+    this.overlayService.createOverlay();
+
     this.wService.getWordsList().subscribe({
       next: (res: WordSet[]) => {
         this.spinnerService.start();
@@ -47,17 +53,19 @@ export class IndexComponent {
       },
       complete: () => {
         this.spinnerService.stop();
+        this.overlayService.disposeOverlay();
       }
     })
   }
 
   getWordTypes(){
-    this.wService.getTypes().subscribe(
-      (res: WordType[]) => {
+    this.wService.getTypes().subscribe({
+      next: (res: WordType[]) => {
         console.log(res);
         this.wordTypes = res;
+        this.isTypeReady = true;
       },
-    )
+    })
   }
 
   
