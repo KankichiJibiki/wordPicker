@@ -33,9 +33,9 @@ export class WordSetService {
   }
 
   public deleteWordSet(wordSet: WordSet): Observable<Response> {
-    let apiUrl = `${environment.apiUrl}/${apiConst.WORD_URL}/${apiConst.WORD_ACTION_URL_DELETE}/${wordSet.id}`;
+    let apiUrl = `${environment.apiUrl}/${apiConst.WORD_URL}/${apiConst.WORD_ACTION_URL_DELETE}`;
 
-    return this.http.delete<Response>(apiUrl);
+    return this.http.put<Response>(apiUrl,wordSet);
   }
 
   public getTypes(): Observable<Response>{
@@ -45,7 +45,7 @@ export class WordSetService {
   }
 
   public slotWord(userId: number): Observable<Response>{
-    let apiUrl = `${environment.apiUrl}/${apiConst.WORD_URL}/${apiConst.WORD_ACTION_URL_SLOT}/${userId}`;
+    let apiUrl = `${environment.apiUrl}/${apiConst.WORD_URL}/${apiConst.WORD_ACTION_URL_SLOT}`;
 
     return this.http.get<Response>(apiUrl)
   }

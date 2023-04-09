@@ -29,7 +29,7 @@
                         Create
                     </button>
     
-                    <button mat-raised-button color="basic" (click)="slot()" class="w-40">Slot</button>
+                    <button mat-raised-button color="basic" (click)="pickup()" class="w-40">Pickup</button>
                 </div>
             </form>
         </div>
@@ -64,15 +64,19 @@
                 </ng-container>
                 <!-- created_date -->
                 <ng-container matColumnDef="created_date">
-                    <th mat-header-cell *matHeaderCellDef>Create</th>
-                    <td mat-cell *matCellDef="let element">
-                        {{ element.created_date | date:"Y-M-d H:m" }}
-                    </td>
+                    <div class="created_date">
+                        <th mat-header-cell *matHeaderCellDef>Create</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.created_date | date:"Y-M-d H:m" }}
+                        </td>
+                    </div>
                 </ng-container>
                 <!-- updated_date -->
                 <ng-container matColumnDef="updated_date">
-                    <th mat-header-cell *matHeaderCellDef>Update</th>
-                    <td mat-cell *matCellDef="let element">{{ element.updated_date | date:"Y-M-d H:m" }}</td>
+                    <div class="updated_date">
+                        <th mat-header-cell *matHeaderCellDef>Update</th>
+                        <td mat-cell *matCellDef="let element">{{ element.updated_date | date:"Y-M-d H:m" }}</td>
+                    </div>
                 </ng-container>
                 <!-- typeId -->
                 <ng-container matColumnDef="typeId">

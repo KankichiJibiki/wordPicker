@@ -20,3 +20,9 @@ td{
     border: .7px solid #ebf5a2;
     background-color: #f8faed;
 }
+
+@media screen and (min-width : 768px) {
+    .created_date, .updated_date{
+        display: none;
+    }
+}

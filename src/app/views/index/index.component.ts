@@ -145,7 +145,7 @@ export class IndexComponent {
     let resDelete = this.delete(word);
   }
 
-  slot(){
+  pickup(){
     let userId = localStorage.getItem('userId');
     if(userId == null) {
       alert('You are not authorized');
