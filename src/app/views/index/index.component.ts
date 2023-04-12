@@ -151,13 +151,19 @@ export class IndexComponent {
       alert('You are not authorized');
       return;
     };
-
-    this.wService.slotWord(+userId).subscribe(
-      (res: Response | any) => {
+    
+    this.spinnerService.start();
+    this.overlayService.createOverlay();
+    this.wService.slotWord(+userId).subscribe({
+      next: (res: Response | any) => {
         console.log(res);
         this.dialogService.openSlotDialog(res.data);
       },
-    )
+      complete: () => {
+        this.spinnerService.stop();
+        this.overlayService.disposeOverlay();
+      }
+    })
   }
 
   OnPageChange(event: PageEvent){

@@ -261,14 +261,17 @@ body {
 }
 
 .modal-container{
-    width: 430px;
-    padding: 2rem;
+    width: 95%;
+    padding: .6rem;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-y: scroll;
 }
 
-.black-board{
+/* .mat-mdc-dialog-container{
     background-color: var(--blackBoard);
     border: 2rem solid var(--blackBoardBorder);
-}
+} */
 
 .warning{
     color: var(--warning);
