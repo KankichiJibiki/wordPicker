@@ -57,7 +57,7 @@ export class AuthInterceptor implements HttpInterceptor
     private async handle401Error(request: HttpRequest<any>, next: HttpHandler){
         const dialogRef = this.dialogService.openErrDialog('Please Login again');
         let res : DialogResult | undefined = await lastValueFrom(dialogRef.afterClosed());
-        console.log(res);
+        localStorage.clear();
         if(res) this.router.navigate(['login']);
     }
 }
