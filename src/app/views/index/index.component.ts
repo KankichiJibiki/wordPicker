@@ -8,6 +8,7 @@ import { WordType } from 'src/app/model/word-type';
 import { PageEvent } from '@angular/material/paginator';
 import { DialogResult } from '../components/dialog/yes-or-no-dialog/yes-or-no-dialog.component';
 import { lastValueFrom } from 'rxjs';
+import { CreateValidatoins } from 'src/app/validations/login/create-validatoin';
 
 @Component({
   selector: 'app-index',
@@ -22,6 +23,7 @@ export class IndexComponent {
   isEditMode: boolean = false;
   isTypeReady: boolean = false;
   editId?: number;
+  wordForm: any;
 
 // table
   displayColumns: string[] = ['id', 'voca', 'definition', 'created_date', 'updated_date', 'typeId', 'edit', 'delete'];
@@ -32,7 +34,10 @@ export class IndexComponent {
     private dialogService: DialogService,
     public spinnerService: SpinnerService,
     private overlayService: OverlayService,
-  ){}
+    private createWordV : CreateValidatoins,
+  ){
+    this.wordForm = this.createWordV.createWordForm;
+  }
 
   ngOnInit(): void{
     this.getWordsList();
@@ -49,7 +54,6 @@ export class IndexComponent {
 
     this.wService.getWordsList().subscribe({
       next: (res: Response | any) => {
-        console.log(res);
         this.spinnerService.start();
         this.words = res.data;
         this.pageSlice = this.words.slice(0, 5);
@@ -64,7 +68,6 @@ export class IndexComponent {
   getWordTypes(){
     this.wService.getTypes().subscribe({
       next: (res: Response | any) => {
-        console.log(res);
         this.wordTypes = res.data;
         this.isTypeReady = true;
       },

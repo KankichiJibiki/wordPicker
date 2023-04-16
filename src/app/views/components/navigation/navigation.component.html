@@ -1,19 +1,42 @@
-<p id="navigation">
+<div id="navigation" class="flex-container">
   <!-- Tool bar -->
-  <mat-toolbar color="primary">
-    <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="authService.isAuthorized">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <!-- menu content -->
-    <mat-menu #menu="matMenu">
-      <ul class="menu-container">
-        <li>
-          <a routerLink (click)="logout()" class="text-center">Logout</a>
-        </li>
-      </ul>
-    </mat-menu>
+  <mat-toolbar color="primary" class="d-flex jt-between">
+    <div class="flex-container">
+      <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="authService.isAuthenticated()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <!-- menu content -->
+      <mat-menu #menu="matMenu">
+        <ul class="menu-container">
+          <li>
+            <a routerLink="mypage">My Page</a>
+          </li>
+          <li>
+            <a routerLink (click)="logout()" class="text-center">Logout</a>
+          </li>
+        </ul>
+      </mat-menu>
 
-    <span>Word Picker</span>
-    <span class="example-spacer"></span>
+      <div>
+        <a routerLink="index" class="disable-text-decoration">
+          Word Picker
+          <span *ngIf="authService.isAuthenticated()" class="home">
+            <mat-icon class="home">home</mat-icon>
+          </span>
+        </a>
+      </div>
+    </div>
+    <ng-container *ngIf="authService.isAuthenticated()">
+      <div>
+        <a routerLink="mypage" class="disable-text-decoration">
+          <mat-icon class="user">
+            account_circle
+          </mat-icon>
+          <span id="username">
+            {{ authService.username }}
+          </span>
+        </a>
+      </div>
+    </ng-container>
   </mat-toolbar>
-</p>
+</div>

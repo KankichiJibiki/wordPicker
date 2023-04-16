@@ -2,29 +2,49 @@
     <ng-container>
         <!-- register -->
         <div class="flex-container w-80 m-0 p-2 ele-center">
-            <form class="form-content">
+            <form class="form-content" [formGroup]="wordForm">
                 <mat-form-field class="full-width">
                     <mat-label>Word</mat-label>
-                    <input type="text" name="voca" matInput [(ngModel)]="inputWordSet.voca" placeholder="E.g Talk into">
+                    <input type="text" name="voca" matInput [(ngModel)]="inputWordSet.voca" placeholder="E.g Talk into"
+                    formControlName="voca"
+                    >
+
+                    <!-- error -->
+                    <mat-error *ngIf="wordForm.get('voca').hasError('required')" class="alert">
+                        Word is required
+                    </mat-error>
                 </mat-form-field>
     
                 <mat-form-field class="full-width">
                     <mat-label>Meaning</mat-label>
-                    <input type="text" name="definition" matInput [(ngModel)]="inputWordSet.definition" placeholder="E.g Persuage">
+                    <input type="text" name="definition" matInput [(ngModel)]="inputWordSet.definition" placeholder="E.g Persuage"
+                    formControlName="definition"
+                    >
+
+                    <!-- error -->
+                    <mat-error *ngIf="wordForm.get('definition').hasError('required')" class="alert">
+                        Definition for a word is required
+                    </mat-error>
                 </mat-form-field>
     
                 <mat-form-field class="full-width">
                     <mat-label>Type</mat-label>
-                    <mat-select name="typeId" [(ngModel)]="inputWordSet.typeId">
+                    <mat-select name="typeId" [(ngModel)]="inputWordSet.typeId"
+                    formControlName="type">
                         <mat-option *ngFor="let type of wordTypes" [value]="type.id" [disabled]="!isTypeReady">
                             {{ type.wordType }}
                         </mat-option>
                     </mat-select>
+
+                    <!-- error -->
+                    <mat-error *ngIf="wordForm.get('type').hasError('required')" class="alert">
+                        Please select a type of word
+                    </mat-error>
                 </mat-form-field>
                 
                 <div class="d-flex jt-between">
                     <button mat-raised-button color="primary" class="w-40" (click)="createWords()"
-                    [disabled]="!isTypeReady"
+                    [disabled]="!isTypeReady || !wordForm.valid"
                     >
                         Create
                     </button>

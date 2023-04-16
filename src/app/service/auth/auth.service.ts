@@ -11,12 +11,20 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
-  isAuthorized: boolean = false;
+  loginData = new LoginData();
+  username: string | null = null;
 
   constructor(
     private http : HttpClient,
     private router: Router
-  ) { }
+  ) {
+    this.username = localStorage.getItem(('userName'));
+  }
+
+  public isAuthenticated(): boolean {
+    const token = localStorage.getItem('authToken');
+    return token != null;
+  }
 
   public registerUser(userList: UserList): Observable<Response>{
     return this.http.post<Response>(`${environment.apiUrl}/${apiConst.AUTH_URL}/${apiConst.AUTH_ACTION_URL_REGISTER}`, userList);
@@ -28,7 +36,6 @@ export class AuthService {
 
   public logout(){
     localStorage.clear();
-    this.isAuthorized = false;
     this.router.navigate(['/']);
   }
 }

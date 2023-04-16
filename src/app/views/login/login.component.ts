@@ -5,7 +5,6 @@ import { OverlayService } from './../../service/overlay/overlay.service';
 import { SpinnerService } from './../../service/spinner/spinner.service';
 import { RegisterValidations } from './../../validations/login/register-validation';
 import { LoginValidations } from 'src/app/validations/login/login-validation';
-import { LoginData } from './../../model/login-data';
 import { AuthService } from '../../service/auth/auth.service';
 import { Router } from '@angular/router';
 import { UserList } from 'src/app/model/user-list';
@@ -18,7 +17,6 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
   userList = new UserList();
-  loginData = new LoginData();
   isLoginPage = true;
   authForm: any;
 
@@ -45,14 +43,14 @@ export class LoginComponent {
         localStorage.clear();
         localStorage.setItem('authToken', res.data.token);
         localStorage.setItem('userId', res.data.id.toString());
-        this.aService.isAuthorized = true;
+        localStorage.setItem('userName', res.data.username.toString());
         this.router.navigate(['/index']);
       },
       error: (err: any) => {
 
       },
       complete: () => {
-        console.log("complete");
+        this.aService.username = localStorage.getItem(('userName'));
         this.spinnerService.stop();
         this.overlayService.disposeOverlay();
       }

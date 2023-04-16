@@ -24,6 +24,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatMenuModule} from '@angular/material/menu';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ProgressSpinnerComponent } from './views/components/progress-spinner/progress-spinner/progress-spinner.component';
+import { MypageComponent } from './views/mypage/mypage.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { ProgressSpinnerComponent } from './views/components/progress-spinner/pr
     LoginComponent,
     NavigationComponent,
     ProgressSpinnerComponent,
+    MypageComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ import { ProgressSpinnerComponent } from './views/components/progress-spinner/pr
     MatSidenavModule,
     MatMenuModule,
     OverlayModule,
+    MatTabsModule
   ],
   providers: [
     {
