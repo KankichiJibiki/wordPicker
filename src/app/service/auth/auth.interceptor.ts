@@ -58,6 +58,6 @@ export class AuthInterceptor implements HttpInterceptor
         const dialogRef = this.dialogService.openErrDialog('Please Login again');
         let res : DialogResult | undefined = await lastValueFrom(dialogRef.afterClosed());
         console.log(res);
-        if(res) this.router.navigate(['/']);
+        if(res) this.router.navigate(['login']);
     }
 }
