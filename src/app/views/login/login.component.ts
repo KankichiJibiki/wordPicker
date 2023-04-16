@@ -44,7 +44,7 @@ export class LoginComponent {
         localStorage.setItem('authToken', res.data.token);
         localStorage.setItem('userId', res.data.id.toString());
         localStorage.setItem('userName', res.data.username.toString());
-        this.router.navigate(['/index']);
+        this.router.navigate(['']);
       },
       error: (err: any) => {
 

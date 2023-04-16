@@ -15,6 +15,10 @@ body {
     margin-top: 90px;
 }
 
+a:hover{
+    opacity: .8;
+}
+
 .f-1{
     font-size: 1.1rem;
 }
@@ -286,4 +290,14 @@ body {
 
 .app-loading-indicator-backdrop {
 background-color: rgba(0, 0, 0, .28);
+}
+
+.disable-text-decoration{
+    text-decoration: none;
+    color: #fff;
+}
+
+.home, .user{
+    height: 27px !important;
+    line-height: 27px;
 }
