@@ -1,3 +1,4 @@
+import { UserList } from './../../model/user-list';
 import { OverlayService } from './../../service/overlay/overlay.service';
 import { SpinnerService } from './../../service/spinner/spinner.service';
 import { DialogService } from './../../service/dialog/dialog.service';
@@ -9,6 +10,10 @@ import { PageEvent } from '@angular/material/paginator';
 import { DialogResult } from '../components/dialog/yes-or-no-dialog/yes-or-no-dialog.component';
 import { lastValueFrom } from 'rxjs';
 import { CreateValidatoins } from 'src/app/validations/login/create-validatoin';
+import { LoginData } from 'src/app/model/login-data';
+import { AuthService } from 'src/app/service/auth/auth.service';
+import { Favorites } from 'src/app/model/favorites';
+import { FavoriteService } from 'src/app/service/favorite/favorite.service';
 
 @Component({
   selector: 'app-index',
@@ -17,13 +22,17 @@ import { CreateValidatoins } from 'src/app/validations/login/create-validatoin';
 })
 export class IndexComponent {
   words: WordSet[] = [];
+  user: LoginData[] | any = [];
   editWordSet = new WordSet();
   inputWordSet = new WordSet();
+  userParams = new UserList();
   wordTypes: WordType[] = [];
   isEditMode: boolean = false;
   isTypeReady: boolean = false;
   editId?: number;
   wordForm: any;
+  userId?: string | null;
+  username?: string | null = "";
 
 // table
   displayColumns: string[] = ['id', 'voca', 'definition', 'created_date', 'updated_date', 'typeId', 'edit', 'delete'];
@@ -31,6 +40,8 @@ export class IndexComponent {
 
   constructor(
     private wService: WordSetService,
+    private aService: AuthService,
+    public fService: FavoriteService,
     private dialogService: DialogService,
     public spinnerService: SpinnerService,
     private overlayService: OverlayService,
@@ -39,24 +50,43 @@ export class IndexComponent {
     this.wordForm = this.createWordV.createWordForm;
   }
 
+
   ngOnInit(): void{
     this.getWordsList();
     this.getWordTypes();
-    let userId = localStorage.getItem('userId');
-    if(userId != null) this.inputWordSet.userId = +userId;
+    this.userId = localStorage.getItem('userId');
+    this.username = localStorage.getItem('userName');
+    if(this.userId != null) this.inputWordSet.userId = +this.userId;
+    this.getUser(this.username);
   }
-  
-  getWordsList(){
-    if(!this.spinnerService.isLoading){
+
+  public getUser(username: string | null) {
+    if(username == null) return;
+    this.userParams.username = username
+    this.aService.getUser(this.userParams).subscribe({
+      next: (res: Response | any) => {
+        this.user = res.data;
+        this.fService.createFavList(this.user.favorites);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+
+  getWordsList(async: boolean = false){
+    if(!async && !this.spinnerService.isLoading){
       this.spinnerService.start();
       this.overlayService.createOverlay();
     }
+    this.userId = localStorage.getItem('userId');
 
     this.wService.getWordsList().subscribe({
       next: (res: Response | any) => {
-        this.spinnerService.start();
         this.words = res.data;
-        this.pageSlice = this.words.slice(0, 5);
+        // Not pageSlice if this method being call by Fav
+        if(!async)
+          this.pageSlice = this.words.slice(0, 5);
       },
       complete: () => {
         this.spinnerService.stop();
@@ -183,5 +213,4 @@ export class IndexComponent {
     this.inputWordSet.definition = '';
     this.inputWordSet.typeId = {} as number;
   }
-
 }

@@ -38,4 +38,8 @@ export class AuthService {
     localStorage.clear();
     this.router.navigate(['login']);
   }
+
+  public getUser(userParams: UserList){
+    return this.http.post<Response>(`${environment.apiUrl}/${apiConst.AUTH_URL}/${apiConst.AUTH_ACTION_URL_GET}`, userParams);
+  }
 }

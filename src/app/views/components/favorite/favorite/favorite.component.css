@@ -1,0 +1,29 @@
+.container{
+    width: 40px;
+    height: 40px;
+}
+
+#star{
+    position: relative;
+    top: 5px;
+    font-size: 18px;
+    text-align: center;
+    line-height: 18px;
+}
+
+#star:hover{
+    cursor: pointer;
+    opacity: .6;
+}
+
+.fav{
+    transform: scale(1.1);
+    transition-duration: .2s;
+    color: rgb(252, 215, 4);
+}
+
+.unfav{
+    transform: scale(1.0);
+    transition-duration: .2s;
+    color: black;
+}

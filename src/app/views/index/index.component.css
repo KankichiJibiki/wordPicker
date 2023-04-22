@@ -21,8 +21,17 @@ td{
     background-color: #f8faed;
 }
 
-@media screen and (min-width : 768px) {
-    .created_date, .updated_date{
+.mat-column-id{
+    /* width: 8%; */
+    text-align: center;
+}
+
+@media screen and (max-width : 768px) {
+    .mat-column-created_date, .mat-column-updated_date{
         display: none;
+    }
+
+    .mat-column-id{
+        width: 30%;
     }
 }

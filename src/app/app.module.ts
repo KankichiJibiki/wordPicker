@@ -26,6 +26,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { ProgressSpinnerComponent } from './views/components/progress-spinner/progress-spinner/progress-spinner.component';
 import { MypageComponent } from './views/mypage/mypage.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import { FavoriteComponent } from './views/components/favorite/favorite/favorite.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     NavigationComponent,
     ProgressSpinnerComponent,
     MypageComponent,
+    FavoriteComponent,
   ],
   imports: [
     BrowserModule,

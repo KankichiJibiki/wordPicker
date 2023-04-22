@@ -39,6 +39,7 @@ export class LoginComponent {
     this.aService.loginUser(this.userList)
     .subscribe({
       next: (res: Response | any) => {
+        console.log(res);
         this.spinnerService.start();
         localStorage.clear();
         localStorage.setItem('authToken', res.data.token);

@@ -57,10 +57,30 @@
         <!-- mat table -->
         <div class="mat-elevation-z8 w-90 ele-center m-1 overflow-content-both">
             <table mat-table [dataSource]="pageSlice" class="p-1">
+
                 <!-- id -->
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef>No.</th>
-                    <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+                    <td mat-cell *matCellDef="let element">
+                        <ng-container *ngIf="fService.favList.get(element.id)">
+                            <app-favorite 
+                                [isFav]="true"
+                                [id]="fService.favList.get(element.id)"
+                                [wordId]="element.id"
+                                (wordEmitter)="getWordsList($event)"
+                            >
+                            </app-favorite>
+                        </ng-container>
+                        <ng-container *ngIf="!fService.favList.get(element.id)">
+                            <app-favorite 
+                                [isFav]="false"
+                                [wordId]="element.id"
+                                (wordEmitter)="getWordsList($event)"
+                                >
+                            </app-favorite>
+                        </ng-container>
+                        {{ element.id }}
+                    </td>
                 </ng-container>
                 <!-- voca -->
                 <ng-container matColumnDef="voca">
